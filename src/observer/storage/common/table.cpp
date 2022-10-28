@@ -126,10 +126,14 @@ RC Table::destroy(const char* dir) {
   RC rc = sync();
   if(rc != RC::SUCCESS) return rc;
 
+  char* table_path = table_meta_file(dir,this->name);
+  char* data_path = table_data_file(dir,this->name);
+
+
   //TODO 删除描述表元数据的文件
-
+  remove(table_path.c_str());
   //TODO 删除表数据文件
-
+  remove(data_path.c_str());
   //TODO 清理所有的索引相关文件数据与索引元数据
 
   return RC::GENERIC_ERROR;

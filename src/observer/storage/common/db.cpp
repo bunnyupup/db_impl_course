@@ -79,13 +79,20 @@ RC Db::create_table(const char *table_name, int attribute_count, const AttrInfo 
 RC Db::drop_table(const char* table_name)
 {
   //TODO 从表list(opened_tables_)中找出表指针
-
+   RC rc = RC::SUCCESS;
+   if (opened_tables_.count(table_name) != 0) {
+    Table *table = new Table();
+    table = opened_tables_[table_name];
   //TODO 找不到表，要返回错误
 
   //TODO 调用 table->destroy 函数，让表自己销毁资源
-
+  table->destroy(table_name);
+ //rc = table->destory(table_name);
   //TODO 删除成功的话，从表list中将它删除
-
+    if (rc == RC::SUCCESS) {
+      opened_tables_.erase(table_name);
+    }
+  }
   return RC::GENERIC_ERROR;
 }
 
