@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 build/
 cmake-build-debug/
 observer.log.*
@@ -7,3 +8,11 @@ deps/libevent/
 .idea/
 .vscode/
 .vscode-server/
+=======
+.idea/
+build/
+cmake-build-debug/*
+deps/
+miniob/
+observer.log.*
+>>>>>>> dfbe3dcc95183b1c101f87f52f96048ba6b58cb0
