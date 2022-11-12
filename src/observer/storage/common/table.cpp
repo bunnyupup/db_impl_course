@@ -131,11 +131,15 @@ RC Table::destroy(const char* dir) {
 
 
   //TODO 删除描述表元数据的文件
-  remove(table_path.c_str());
+  int i = remove(table_path.c_str());
   //TODO 删除表数据文件
-  remove(data_path.c_str());
+  i = remove(data_path.c_str());
+
   //TODO 清理所有的索引相关文件数据与索引元数据
 
+  if(i == 0){
+    return RC::SUCCESS;
+  }
   return RC::GENERIC_ERROR;
 }
 

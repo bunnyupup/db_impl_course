@@ -257,10 +257,26 @@ void TupleRecordConverter::add_record(const char *record)
       } break;
       case DATES: {
         // TODO 从record中读取存储的日期
-
+        int value = *(int *)(record + field_meta->offset());
+        tuple.add(value);
         // TODO 将日期转换为满足输出格式的字符串，注意这里月份和天数，不足两位时需要填充0
-
+        int yy=1970,mm=1,dd=1;
+        get_date(value,yy,mm,dd);
+        std::string y,m,d;
+        y= std::to_string(yy);
+        if(mm<10){
+            m="0"+std::to_string(mm);
+        } else{
+            m=std::to_string(mm);
+        }
+        if(dd<10){
+            d="0"+std::to_string(dd);
+        } else{
+            d=std::to_string(dd);
+        }
+        std::string date_string=y+"-"+m+"-"+d;
         // TODO 将字符串添加到tuple中
+         tuple.add(date_string.c_str(),date_string.length());
 
       }break;
       default: {

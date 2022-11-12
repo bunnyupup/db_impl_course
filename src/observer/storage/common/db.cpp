@@ -91,6 +91,7 @@ RC Db::drop_table(const char* table_name)
   //TODO 删除成功的话，从表list中将它删除
     if (rc == RC::SUCCESS) {
       opened_tables_.erase(table_name);
+      return RC::SUCCESS;
     }
   }
   return RC::GENERIC_ERROR;

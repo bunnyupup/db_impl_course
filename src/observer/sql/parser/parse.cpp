@@ -63,12 +63,28 @@ bool check_date(int y, int m, int d)
   // TODO 根据 y:year,m:month,d:day 校验日期是否合法
   // TODO 合法 return 0
   // TODO 不合法 return 1
+  bool leap = (y%400==0 || (y%100 && y%4 ==0));
+  int mon[] = {0,31,28,31,30,31,30,31,31,30,31,30,31}
+  if(leap) mon[2]=29;
+  if(y>0 && (m > 0) && (m <=12) && (d > 0) && (d <= ((m==2 && leap)?1:0)+ mon[m])) return 0;
   return 1;
+}
+
+int get_from_1970(int &resout,int year=1970, int mon=1, int day=1, int hour=0, int min=0, int sec=0)
+{
+    tm info={sec,min,hour,day,mon-1,year-1900};
+    time_t now=mktime(&info);
+
+    tm history={0,0,0,1,0,70};
+    time_t last=mktime(&history);
+    std::cout<<now<<":"<<last<<std::endl;
+    resout=difftime(now, last)/(60*60*24);
+    return resout;
 }
 
 int value_init_date(Value *value, const char *v) {
   // TODO 将 value 的 type 属性修改为日期属性:DATES
-
+  value->type = DATES;
   // 从lex的解析中读取 year,month,day
   int y,m,d;
   sscanf(v, "%d-%d-%d", &y, &m, &d);//not check return value eq 3, lex guarantee
@@ -76,9 +92,10 @@ int value_init_date(Value *value, const char *v) {
   bool b = check_date(y,m,d);
   if(!b) return -1;
   // TODO 将日期转换成整数
-
+  int *diff=new int();
+  get_from_1970(*diff,y,m,d);
   // TODO 将value 的 data 属性修改为转换后的日期
-
+  value->data = diff;
   return 0;
 }
 
